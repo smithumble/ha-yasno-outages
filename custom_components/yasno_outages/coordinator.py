@@ -20,10 +20,9 @@ from .const import (
     EVENT_NAME_OUTAGE,
     OUTAGE_STATE_NORMAL,
     OUTAGE_STATE_OUTAGE,
-    OUTAGE_STATE_POSSIBLE,
     PROVIDER_DTEK_FULL,
     PROVIDER_DTEK_SHORT,
-    TRANSLATION_KEY_EVENT_MAYBE,
+    TRANSLATION_KEY_EVENT_ON,
     TRANSLATION_KEY_EVENT_OFF,
     UPDATE_INTERVAL,
 )
@@ -105,7 +104,7 @@ class YasnoOutagesCoordinator(DataUpdateCoordinator):
         """Return a mapping of event names to translations."""
         return {
             EVENT_NAME_OUTAGE: self.translations.get(TRANSLATION_KEY_EVENT_OFF),
-            EVENT_NAME_NORMAL: self.translations.get(TRANSLATION_KEY_EVENT_MAYBE),
+            EVENT_NAME_NORMAL: self.translations.get(TRANSLATION_KEY_EVENT_ON),
         }
 
     async def _resolve_ids(self) -> None:
@@ -179,32 +178,9 @@ class YasnoOutagesCoordinator(DataUpdateCoordinator):
         return event.start if event else None
 
     @property
-    def next_possible_outage(self) -> datetime.date | datetime.datetime | None:
-        """Get the next possible outage time."""
-        current_event = self.get_current_event()
-
-        # If currently in any outage state, return end time (when it ends)
-        current_state = self._event_to_state(current_event)
-        if current_state in [OUTAGE_STATE_OUTAGE, OUTAGE_STATE_POSSIBLE]:
-            return current_event.end if current_event else None
-
-        # Otherwise, return the start of the next outage
-        event = self._get_next_event_of_type(OUTAGE_STATE_POSSIBLE)
-        LOGGER.debug("Next possible outage: %s", event)
-        return event.start if event else None
-
-    @property
     def next_connectivity(self) -> datetime.date | datetime.datetime | None:
         """Get next connectivity time."""
-        current_event = self.get_current_event()
-        current_state = self._event_to_state(current_event)
-
-        # If currently in any outage state, return when it ends
-        if current_state in [OUTAGE_STATE_OUTAGE, OUTAGE_STATE_POSSIBLE]:
-            return current_event.end if current_event else None
-
-        # Otherwise, return the end of the next possible outage
-        event = self._get_next_event_of_type(OUTAGE_STATE_POSSIBLE)
+        event = self._get_next_event_of_type(OUTAGE_STATE_OUTAGE)
         LOGGER.debug("Next connectivity: %s", event)
         return event.end if event else None
 

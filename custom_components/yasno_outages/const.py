@@ -21,7 +21,6 @@ UPDATE_INTERVAL: Final = 15
 # Values
 OUTAGE_STATE_NORMAL: Final = "normal"
 OUTAGE_STATE_OUTAGE: Final = "outage"
-OUTAGE_STATE_POSSIBLE: Final = "possible"
 
 # Event names
 EVENT_NAME_NORMAL: Final = "NotPlanned"
@@ -38,4 +37,4 @@ STATUS_SCHEDULE_APPLIES: Final = "ScheduleApplies"
 
 # Keys
 TRANSLATION_KEY_EVENT_OFF: Final = f"component.{DOMAIN}.common.electricity_off"
-TRANSLATION_KEY_EVENT_MAYBE: Final = f"component.{DOMAIN}.common.electricity_maybe"
+TRANSLATION_KEY_EVENT_ON: Final = f"component.{DOMAIN}.common.electricity_on"

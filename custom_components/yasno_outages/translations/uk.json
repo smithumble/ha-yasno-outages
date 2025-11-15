@@ -64,8 +64,8 @@
           "message": {
             "name": "Підключення",
             "state": {
-              "outage": "Відключення",
-              "possible": "Можливе відключення"
+              "normal": "Заживлено",
+              "outage": "Відключення"
             }
           }
         }
@@ -76,8 +76,7 @@
         "name": "Електрика",
         "state": {
           "normal": "Заживлено",
-          "outage": "Відключення",
-          "possible": "Можливе відключення"
+          "outage": "Відключення"
         }
       },
       "schedule_updated_on": {
@@ -86,9 +85,6 @@
       "next_outage": {
         "name": "Наступне відключення"
       },
-      "next_possible_outage": {
-        "name": "Наступне можливе відключення"
-      },
       "next_connectivity": {
         "name": "Наступна заживленість"
       }
@@ -96,7 +92,7 @@
   },
   "common": {
     "electricity_off": "Відключення",
-    "electricity_maybe": "Можливе відключення"
+    "electricity_on": "Заживлено"
   },
   "issues": {
     "api_v1_to_v2": {
