@@ -9,6 +9,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .const import CONF_SHOW_NORMAL_EVENTS, EVENT_NAME_NORMAL
 from .coordinator import YasnoOutagesCoordinator
 from .entity import YasnoOutagesEntity
 
@@ -45,6 +46,10 @@ class YasnoOutagesCalendar(YasnoOutagesEntity, CalendarEntity):
             f"{coordinator.group}-"
             f"{self.entity_description.key}"
         )
+        self.show_normal_events = coordinator.config_entry.options.get(
+            CONF_SHOW_NORMAL_EVENTS,
+            coordinator.config_entry.data.get(CONF_SHOW_NORMAL_EVENTS, False),
+        )
 
     @property
     def event(self) -> CalendarEvent | None:
@@ -60,4 +65,11 @@ class YasnoOutagesCalendar(YasnoOutagesEntity, CalendarEntity):
     ) -> list[CalendarEvent]:
         """Return calendar events within a datetime range."""
         LOGGER.debug('Getting all events between "%s" -> "%s"', start_date, end_date)
-        return self.coordinator.get_events_between(start_date, end_date)
+        events = self.coordinator.get_events_between(start_date, end_date)
+        if not self.show_normal_events:
+            events = [
+                event
+                for event in events
+                if event.description != EVENT_NAME_NORMAL
+            ]
+        return events

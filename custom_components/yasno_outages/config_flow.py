@@ -21,6 +21,7 @@ from .const import (
     CONF_GROUP,
     CONF_REGION,
     CONF_SERVICE,
+    CONF_SHOW_NORMAL_EVENTS,
     DOMAIN,
     NAME,
 )
@@ -160,7 +161,7 @@ class YasnoOutagesOptionsFlow(OptionsFlow):
         if user_input is not None:
             LOGGER.debug("Group selected: %s", user_input)
             self.data.update(user_input)
-            return self.async_create_entry(title="", data=self.data)
+            return await self.async_step_options()
 
         # Fetch groups for the selected region/service
         region = self.data[CONF_REGION]
@@ -180,6 +181,30 @@ class YasnoOutagesOptionsFlow(OptionsFlow):
         return self.async_show_form(
             step_id="group",
             data_schema=build_group_schema(groups, self.config_entry),
+        )
+
+    async def async_step_options(
+        self,
+        user_input: dict | None = None,
+    ) -> ConfigFlowResult:
+        """Handle additional options."""
+        if user_input is not None:
+            LOGGER.debug("Options selected: %s", user_input)
+            self.data.update(user_input)
+            return self.async_create_entry(title="", data=self.data)
+
+        return self.async_show_form(
+            step_id="options",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_SHOW_NORMAL_EVENTS,
+                        default=get_config_value(
+                            self.config_entry, CONF_SHOW_NORMAL_EVENTS, False
+                        ),
+                    ): bool,
+                },
+            ),
         )
 
 
@@ -250,7 +275,7 @@ class YasnoOutagesConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             LOGGER.debug("User input: %s", user_input)
             self.data.update(user_input)
-            return self.async_create_entry(title=NAME, data=self.data)
+            return await self.async_step_options()
 
         # Fetch groups for the selected region/service
         region = self.data[CONF_REGION]
@@ -270,4 +295,26 @@ class YasnoOutagesConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="group",
             data_schema=build_group_schema(groups, None),
+        )
+
+    async def async_step_options(
+        self,
+        user_input: dict | None = None,
+    ) -> ConfigFlowResult:
+        """Handle additional options."""
+        if user_input is not None:
+            LOGGER.debug("Options selected: %s", user_input)
+            self.data.update(user_input)
+            return self.async_create_entry(title=NAME, data=self.data)
+
+        return self.async_show_form(
+            step_id="options",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_SHOW_NORMAL_EVENTS,
+                        default=False,
+                    ): bool,
+                },
+            ),
         )

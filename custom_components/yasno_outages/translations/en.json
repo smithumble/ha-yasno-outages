@@ -22,6 +22,12 @@
         "data_description": {
           "group": "You can find your group at: https://app.yasno.ua"
         }
+      },
+      "options": {
+        "title": "Yasno Outages Settings",
+        "data": {
+          "show_normal_events": "Show \"Connected\" event in calendar"
+        }
       }
     }
   },
@@ -46,6 +52,12 @@
         },
         "data_description": {
           "group": "You can find your group at: https://app.yasno.ua"
+        }
+      },
+      "options": {
+        "title": "Yasno Outages Settings",
+        "data": {
+          "show_normal_events": "Show \"Connected\" event in calendar"
         }
       }
     }

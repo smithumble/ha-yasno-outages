@@ -10,6 +10,7 @@ CONF_REGION: Final = "region"
 CONF_SERVICE: Final = "service"
 CONF_GROUP: Final = "group"
 CONF_CITY: Final = "city"  # Deprecated, use CONF_REGION
+CONF_SHOW_NORMAL_EVENTS: Final = "show_normal_events"
 
 # Provider name simplification
 PROVIDER_DTEK_FULL: Final = "ДТЕК КИЇВСЬКІ ЕЛЕКТРОМЕРЕЖІ"

@@ -22,6 +22,12 @@
         "data_description": {
           "group": "Знайдіть свою групу на: https://app.yasno.ua"
         }
+      },
+      "options": {
+        "title": "Налаштування Yasno Відключення",
+        "data": {
+          "show_normal_events": "Показувати подію \"Заживлено\" в календарі"
+        }
       }
     }
   },
@@ -46,6 +52,12 @@
         },
         "data_description": {
           "group": "Знайдіть свою групу на: https://app.yasno.ua"
+        }
+      },
+      "options": {
+        "title": "Налаштування Yasno Відключення",
+        "data": {
+          "show_normal_events": "Показувати подію \"Заживлено\" в календарі"
         }
       }
     }
